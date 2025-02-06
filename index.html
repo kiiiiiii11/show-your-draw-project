@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Your Draw</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🎨 Show Your Draw</h1>
+        <p>แชร์ผลงานภาพวาดของคุณกับทุกคน!</p>
+        <div class="upload-box">
+            <input type="file" id="upload" accept="image/*">
+            <input type="text" id="artTitle" placeholder="ใส่ชื่อผลงาน...">
+            <button id="addArt">เพิ่มผลงาน</button>
+        </div>
+    </header>
+    
+    <main>
+        <div id="gallery" class="book-container"></div>
+    </main>
+
+    <!-- Lightbox for full-screen image -->
+    <div id="lightbox" class="lightbox">
+        <div class="lightbox-content">
+            <span class="close-btn" id="close-lightbox">&times; ปิด</span>
+            <img class="lightbox-img" id="lightbox-img">
+        </div>
+    </div>
+
+    <footer>
+        <h3>📞 ติดต่อหากพบปัญหา</h3>
+        <p>📧 อีเมล: <a href="mailto:kaycnamakhlay06@gmail.com">kaycnamakhlay06@gmail.com</a></p>
+        <p>💬 LINE ID: <span id="line-id">nanami5772</span></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
