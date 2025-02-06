@@ -1,21 +1,23 @@
 body {
     font-family: "Sarabun", sans-serif;
-    background: linear-gradient(135deg, #ffccd5, #ff8fa3);
+    background: linear-gradient(135deg, #ffe0e6, #ff99b4);
     color: #333;
     margin: 0;
     padding: 20px;
     text-align: center;
 }
 
+/* HEADER */
 header {
-    background: linear-gradient(135deg, #ff4d6d, #ff1e56);
+    background: linear-gradient(135deg, #ff3366, #cc0055);
     color: white;
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
 }
 
+/* UPLOAD SECTION */
 .upload-box {
     display: flex;
     justify-content: center;
@@ -31,27 +33,42 @@ input, button {
 }
 
 button {
-    background-color: #ff4d6d;
+    background-color: #ff3366;
     color: white;
     cursor: pointer;
     font-weight: bold;
+    transition: background 0.3s ease-in-out, transform 0.2s;
 }
 
+button:hover {
+    background-color: #cc0055;
+    transform: scale(1.05);
+}
+
+/* GRID LAYOUT FOR ARTWORK */
 .book-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
     max-width: 1200px;
     margin: auto;
+    padding: 10px;
 }
 
+/* EACH ARTWORK */
 .book-page {
     position: relative;
     background: white;
     border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
     padding: 15px;
     text-align: center;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+}
+
+.book-page:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.25);
 }
 
 .book-page img {
@@ -59,17 +76,24 @@ button {
     height: auto;
     max-height: 250px;
     object-fit: cover;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
+    transition: transform 0.2s ease-in-out;
 }
 
+.book-page img:hover {
+    transform: scale(1.02);
+}
+
+/* ART TITLE */
 .art-title {
     font-size: 16px;
     font-weight: bold;
     margin-top: 8px;
-    color: #333;
+    color: #444;
 }
 
+/* DELETE BUTTON */
 .delete-btn {
     position: absolute;
     top: 5px;
@@ -81,14 +105,15 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    opacity: 0.6;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
 }
 
 .book-page:hover .delete-btn {
     opacity: 1;
 }
 
-/* Lightbox for fullscreen image */
+/* LIGHTBOX (FULLSCREEN IMAGE VIEWER) */
 .lightbox {
     display: none;
     position: fixed;
@@ -96,9 +121,10 @@ button {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.85);
     justify-content: center;
     align-items: center;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .lightbox-content {
@@ -110,8 +136,15 @@ button {
     max-width: 90%;
     max-height: 80vh;
     border-radius: 10px;
+    box-shadow: 0px 5px 20px rgba(255, 255, 255, 0.3);
+    transition: transform 0.3s ease-in-out;
 }
 
+.lightbox-img:hover {
+    transform: scale(1.02);
+}
+
+/* CLOSE BUTTON */
 .close-btn {
     position: absolute;
     top: 10px;
@@ -123,4 +156,9 @@ button {
     font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
+    transition: background 0.2s;
+}
+
+.close-btn:hover {
+    background: #cc0000;
 }
