@@ -1,40 +1,95 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Show Your Draw</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>อัปโหลดรูปภาพด้วย Supabase Storage</title>
+  <style>
+    body {
+      font-family: "Sarabun", sans-serif;
+      background: #f5f5f5;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+    }
+    #upload, #uploadBtn {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px;
+    }
+    #status {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #006600;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>🎨 Show Your Draw</h1>
-        <p>แชร์ผลงานภาพวาดของคุณกับทุกคน!</p>
-        <div class="upload-box">
-            <input type="file" id="upload" accept="image/*">
-            <input type="text" id="artTitle" placeholder="ใส่ชื่อผลงาน...">
-            <button id="addArt">เพิ่มผลงาน</button>
-        </div>
-    </header>
+  <h1>อัปโหลดรูปภาพไปยัง Supabase Storage</h1>
+  <!-- Input สำหรับเลือกไฟล์ -->
+  <input type="file" id="upload" accept="image/*">
+  <br>
+  <!-- ปุ่มสำหรับอัปโหลดไฟล์ -->
+  <button id="uploadBtn">อัปโหลด</button>
+  
+  <!-- แสดงสถานะการอัปโหลด -->
+  <p id="status"></p>
+  
+  <!-- นำเข้า Supabase Client Library ผ่าน CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // กำหนดค่า Supabase URL และ Anon Key ที่ได้รับจาก Supabase Console
+    const supabaseUrl = 'https://feyqvhfywqgowopfufvh.supabase.co';
+    const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZleXF2aGZ5d3Fnb3dvcGZ1ZnZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzkxMDQ5NjMsImV4cCI6MjA1NDY4MDk2M30.RkCG6duHdjfUgDUBdsP2BF3oueb4sElBaX7sxBYbADY';
     
-    <main>
-        <div id="gallery" class="book-container"></div>
-    </main>
-
-    <!-- Lightbox for full-screen image -->
-    <div id="lightbox" class="lightbox">
-        <div class="lightbox-content">
-            <span class="close-btn" id="close-lightbox">&times; ปิด</span>
-            <img class="lightbox-img" id="lightbox-img">
-        </div>
-    </div>
-
-    <footer>
-        <h3>📞 ติดต่อหากพบปัญหา</h3>
-        <p>📧 อีเมล: <a href="mailto:kaycnamakhlay06@gmail.com">kaycnamakhlay06@gmail.com</a></p>
-        <p>💬 LINE ID: <span id="line-id">nanami5772</span></p>
-    </footer>
-
-    <script src="script.js"></script>
+    // สร้าง Supabase client
+    const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
+    
+    // ระบุชื่อ Bucket ที่ต้องการอัปโหลด (ต้องสร้าง Bucket นี้ใน Supabase Storage ก่อน)
+    const bucketName = 'artgallery';  // เปลี่ยนชื่อ Bucket หากจำเป็น
+    
+    // อ้างอิง input และปุ่ม
+    const uploadInput = document.getElementById('upload');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const statusElement = document.getElementById('status');
+    
+    uploadBtn.addEventListener('click', async () => {
+      const file = uploadInput.files[0];
+      if (!file) {
+        statusElement.textContent = 'กรุณาเลือกไฟล์ก่อน!';
+        return;
+      }
+      
+      // สร้างชื่อไฟล์แบบ unique โดยใช้ timestamp ร่วมกับชื่อไฟล์เดิม
+      const fileName = `${Date.now()}-${file.name}`;
+      
+      // อัปโหลดไฟล์ไปยัง Supabase Storage ใน Bucket ที่กำหนด
+      const { data, error } = await supabase.storage
+        .from(bucketName)
+        .upload(fileName, file);
+      
+      if (error) {
+        console.error('Upload error:', error);
+        statusElement.textContent = 'เกิดข้อผิดพลาดในการอัปโหลด: ' + error.message;
+        return;
+      }
+      
+      // ดึง Public URL ของไฟล์ที่อัปโหลด
+      const { data: publicData, error: publicError } = supabase.storage
+        .from(bucketName)
+        .getPublicUrl(fileName);
+      
+      if (publicError) {
+        console.error('Public URL error:', publicError);
+        statusElement.textContent = 'ไม่สามารถดึง Public URL ได้: ' + publicError.message;
+        return;
+      }
+      
+      console.log('File uploaded. Public URL:', publicData.publicUrl);
+      statusElement.innerHTML = 'อัปโหลดสำเร็จแล้ว! <br><a href="' + publicData.publicUrl + '" target="_blank">คลิกเพื่อดูไฟล์</a>';
+    });
+  </script>
 </body>
 </html>
