@@ -1,41 +1,41 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Show Your Draw</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Your Draw</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <header>
-    <h1>🎨 Show Your Draw</h1>
-    <p>แชร์ผลงานภาพวาดของคุณกับทุกคน!</p>
-    <div class="upload-box">
-      <input type="file" id="upload" accept="image/*">
-      <input type="text" id="artTitle" placeholder="ใส่ชื่อผลงาน...">
-      <button id="addArt">เพิ่มผลงาน</button>
-    </div>
-    <!-- ช่องแสดงผลงานของทุกคน -->
-    <div id="gallery" class="book-container"></div>
-  </header>
+    <header>
+        <h1><i class="fas fa-paint-brush"></i> Show Your Draw</h1>
+    </header>
 
-  <!-- Lightbox สำหรับแสดงภาพเต็มหน้าจอ -->
-  <div id="lightbox" class="lightbox">
-    <div class="lightbox-content">
-      <span class="close-btn" id="close-lightbox">&times; ปิด</span>
-      <img class="lightbox-img" id="lightbox-img" src="" alt="Full view">
-    </div>
-  </div>
+    <main>
+        <section class="upload-section">
+            <h2>🎨 อัปโหลดภาพวาดของคุณ</h2>
+            <p>แชร์ผลงานศิลปะของคุณกับทุกคน!</p>
+            <div class="upload-box">
+                <input type="file" id="image-file" accept="image/*">
+                <input type="text" id="art-title" placeholder="ชื่อผลงาน">
+                <input type="text" id="artist-name" placeholder="ชื่อผู้วาด">
+                <button onclick="uploadArtwork()">อัปโหลด <i class="fas fa-upload"></i></button>
+                <div id="preview"></div>
+            </div>
+        </section>
 
-  <footer>
-    <h3>📞 ติดต่อหากพบปัญหา</h3>
-    <p>📧 อีเมล: <a href="mailto:kaycnamakhlay06@gmail.com">kaycnamakhlay06@gmail.com</a></p>
-    <p>💬 LINE ID: <span id="line-id">nanami5772</span></p>
-  </footer>
+        <section class="gallery">
+            <h2>🖼️ ผลงานของผู้ใช้งาน</h2>
+            <p>เพลิดเพลินไปกับศิลปะจากผู้สร้างสรรค์มากมาย</p>
+            <div id="artworks"></div>
+        </section>
+    </main>
 
-  <!-- นำเข้า Supabase Client Library ผ่าน CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- เรียกใช้ไฟล์ JavaScript -->
-  <script src="script.js"></script>
+    <footer>
+        <p>🌟 สร้างสรรค์โดย Show Your Draw | แชร์ผลงานของคุณวันนี้!</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
